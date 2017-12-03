@@ -14,12 +14,12 @@
 	try {
 
 		//Create a connection string
-		String url = "jdbc:mysql://cs336-2.crujdr9emkb3.us-east-1.rds.amazonaws.com:3306/BarBeerDrinkerSample";
+		String url = "jdbc:mysql://jtsr336db.c8venqrmdpbq.us-east-2.rds.amazonaws.com:3306/BarBeerDrinkerSample";
 		//Load JDBC driver - the interface standardizing the connection procedure. Look at WEB-INF\lib for a mysql connector jar file, otherwise it fails.
 		Class.forName("com.mysql.jdbc.Driver");
 
 		//Create a connection to your DB
-		Connection con = DriverManager.getConnection(url, "student", "student");
+		Connection con = DriverManager.getConnection(url, "JTSR", "336HotelJTSR");
 
 		//Create a SQL statement
 		Statement stmt = con.createStatement();

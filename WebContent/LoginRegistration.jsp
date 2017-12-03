@@ -16,10 +16,10 @@ For New Users, Please Register Here:
 	<form method="post" action="newBeer.jsp">
 	<table>
 	<tr><td>Username:</td><td><input type="text" name="Username"></td></tr>
-	<tr><td>Password:</td><td><input type="text" name="Password"></td></tr>
+	<tr><td>Password:</td><td><input type="password" name="Password"></td></tr>
 	<tr><td>First Name:</td><td><input type="text" name="FirstName"></td></tr>	
 	<tr><td>Last Name:</td><td><input type="text" name="LastName"></td></tr>
-	<tr><td>Email:</td><td><input type="text" name="Email"></td></tr>
+	<tr><td>Email:</td><td><input type="email" name="Email"></td></tr>
 	<tr><td>Street:</td><td><input type="text" name="AddrStreet"></td></tr>
 	<tr><td>City:</td><td><input type="text" name="AddrCity"></td></tr>	
 	<tr><td>State:</td><td><input type="text" name="AddrState"></td></tr>	
@@ -33,10 +33,10 @@ For New Users, Please Register Here:
 
 For Returning Users, Please Login Here:
 <br>
-	<form method="post" action="newBeer.jsp">
+	<form method="post" action="login.jsp">
 	<table>
 	<tr><td>Username:</td><td><input type="text" name="Username"></td></tr>
-	<tr><td>Password:</td><td><input type="text" name="Password"></td></tr>
+	<tr><td>Password:</td><td><input type="password" name="Password"></td></tr>
 	</table>
 	<br>
 	<input type="submit" value="Log In For Pre-Existing Users">
