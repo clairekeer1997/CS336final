@@ -45,7 +45,7 @@
 		if(result.next() == false){
 			%>
 			<script>
-				alert("Username and Password combination does not exist.");
+				alert("Username and Password combination does not exist. Both are case sensitive.");
 				window.location.href = "LoginRegistration.jsp"
 			</script>
 			<%			
@@ -64,7 +64,7 @@
 		} else {
 			%>
 			<script>
-				alert("Username and Password combination does not exist.");
+				alert("Username and Password combination does not exist. Both are case sensitive.");
 				window.location.href = "LoginRegistration.jsp"
 			</script>
 			<%

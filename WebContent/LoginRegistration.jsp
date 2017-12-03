@@ -10,10 +10,10 @@
 <title>Hulton Hotel Login/Registration</title>
 </head>
 <body>
-Welcome to Hulton Hotels</br></br>
+Welcome to Hulton Hotels<br><br>
 For New Users, Please Register Here:
 <br>
-	<form method="post" action="newBeer.jsp">
+	<form method="post" action="newUserRegistration.jsp">
 	<table>
 	<tr><td>Username:</td><td><input type="text" name="Username"></td></tr>
 	<tr><td>Password:</td><td><input type="password" name="Password"></td></tr>
@@ -30,7 +30,10 @@ For New Users, Please Register Here:
 	<input type="submit" value="Submit New User Registration">
 	</form>
 <br>
+* Please note that all fields are required. <br>
+* Passwords must be of a length greater than 3 characters. <br><br>
 
+<br>
 For Returning Users, Please Login Here:
 <br>
 	<form method="post" action="login.jsp">
