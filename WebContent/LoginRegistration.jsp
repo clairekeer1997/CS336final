@@ -10,10 +10,13 @@
 <title>Hulton Hotel Login/Registration</title>
 </head>
 <body>
+<center>
 Welcome to Hulton Hotels<br><br>
 For New Users, Please Register Here:
+</center>
 <br>
 	<form method="post" action="newUserRegistration.jsp">
+	<center>
 	<table>
 	<tr><td>Username:</td><td><input type="text" name="Username"></td></tr>
 	<tr><td>Password:</td><td><input type="password" name="Password"></td></tr>
@@ -29,6 +32,7 @@ For New Users, Please Register Here:
 	</table>
 	<br>
 	<input type="submit" value="Submit New User Registration">
+	</center>
 	</form>
 <br>
 * Please note that all fields are required. <br>
@@ -37,6 +41,7 @@ For New Users, Please Register Here:
 
 
 <br>
+<center>
 For Returning Users, Please Login Here:
 <br>
 	<form method="post" action="login.jsp">
@@ -47,6 +52,7 @@ For Returning Users, Please Login Here:
 	<br>
 	<input type="submit" value="Log In For Pre-Existing Users">
 	</form>
+</center>
 <br>
 </body>
 </html>
