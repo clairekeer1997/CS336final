@@ -22,7 +22,8 @@ For New Users, Please Register Here:
 	<tr><td>Email:</td><td><input type="text" name="Email"></td></tr>
 	<tr><td>Street:</td><td><input type="text" name="AddrStreet"></td></tr>
 	<tr><td>City:</td><td><input type="text" name="AddrCity"></td></tr>	
-	<tr><td>State:</td><td><input type="text" name="AddrState"></td></tr>	
+	<tr><td>State/Province:</td><td><input type="text" name="AddrState"></td></tr>	
+	<tr><td>Country:</td><td><input type="text" name="AddrCountry"></td></tr>		
 	<tr><td>Zip:</td><td><input type="text" name="AddrZip"></td></tr>	
 	<tr><td>Phone:</td><td><input type="text" name="Phone_No"></td></tr>	
 	</table>
@@ -31,7 +32,9 @@ For New Users, Please Register Here:
 	</form>
 <br>
 * Please note that all fields are required. <br>
-* Passwords must be of a length greater than 3 characters. <br><br>
+* Passwords must be of a length greater than 3 characters. <br>
+* Phone numbers must be input with numbers only and no spaces and must have a minimum length of 8 and a max of 15<br><br>
+
 
 <br>
 For Returning Users, Please Login Here:
