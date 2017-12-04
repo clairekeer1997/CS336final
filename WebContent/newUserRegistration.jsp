@@ -132,7 +132,7 @@
 			</script>
 			<%			
 		}
-		System.out.println("did i get here");
+
 		//Check if Phone number already exists
 		str = "SELECT * FROM Customer WHERE Username = '" + username + "'";		
 		result = stmt.executeQuery(str);
