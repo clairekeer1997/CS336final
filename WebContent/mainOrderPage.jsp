@@ -22,7 +22,7 @@
   $(document).ready(function () {
 
 	    $("#datepicker").datepicker({
-	        dateFormat: "dd-M-yy",
+	        dateFormat: "yy-mm-dd",
 	        minDate: 0,
 	        onSelect: function (date) {
 	            var date2 = $('#datepicker').datepicker('getDate');
@@ -33,7 +33,7 @@
 	        }
 	    });
 	    $('#datepicker1').datepicker({
-	        dateFormat: "dd-M-yy",
+	        dateFormat: "yy-mm-dd",
 	        onClose: function () {
 	            var dt1 = $('#datepicker').datepicker('getDate');
 	            var dt2 = $('#datepicker1').datepicker('getDate');
@@ -66,10 +66,12 @@
 			ResultSet res = t.executeQuery(sqls);
 	%>
 	<tr><td>Select a Hotel: </td><td>
-	<select>
+	<select name = "hotelSelection">
 		<%  while(res.next()){ %>
 			<option><%= res.getString(1)%></option>
-		        <% } %>
+		        <% } 
+		        con.close();
+		        %>
 	</select>
 	</td></tr>
 	<%}
@@ -85,10 +87,10 @@
 										<option value = "suite">suite</option></select></td></tr>
 	
 	<tr><td>Check in date: </td>
-	<td> <input type="text" id="datepicker"></td>
+	<td> <input type="text" id="datepicker" name = "startDate"></td>
 	
 	<td>leaving date:</td>
-	<td> <input type="text" id="datepicker1"></td></tr>
+	<td> <input type="text" id="datepicker1" name = "endDate"></td></tr>
 	
 	<%
 		try{
@@ -100,10 +102,12 @@
 			ResultSet res = t.executeQuery(sqls);
 	%>
 	<tr><td>Service: </td><td>
-	<select>
+	<select name = "serviceSelection">
 		<%  while(res.next()){ %>
 			<option><%= res.getString(1)%></option>
-		        <% } %>
+		        <% } 
+		        con.close();
+		        %>
 	</select>
 	</td></tr>
 	<%}

@@ -30,6 +30,7 @@
 		//Run the query against the DB
 		ResultSet result = stmt.executeQuery(str);
 
+		
 		//Start parsing out the result of the query. Don't forget this statement. It opens up the result set.
 		result.next();
 		//Parse out the result of the query

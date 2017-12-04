@@ -58,7 +58,7 @@
 			%>
 			<script>
 				alert("Successfully logged in.");
-				//window.location.href = "test.jsp"
+				window.location.href = "paymentInfo.jsp"
 			</script>
 			<%
 		} else {
