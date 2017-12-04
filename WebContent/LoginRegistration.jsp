@@ -11,7 +11,7 @@
 </head>
 <body>
 <center>
-Welcome to Hulton Hotels<br><br>
+<font size = 10>Welcome to Hulton Hotels</font><br><br>
 For New Users, Please Register Here:
 </center>
 <br>
