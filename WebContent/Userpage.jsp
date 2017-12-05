@@ -15,36 +15,33 @@
 	</center>
 	<br>
 	<br>
-	<%
-		try{
+	<%try{
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://jtsr336db.c8venqrmdpbq.us-east-2.rds.amazonaws.com:3306/hoteldb", "JTSR","336HotelJTSR");
 			
 			//String username = session.getAttribute("user_name").toString();
 			String username = "teacher1";
-			//if(username != null){
-				Statement t = con.createStatement();
-				String sqls = "SELECT r.InvoiceNo\n" + "FROM Reservation r\n" + "WHERE r.Username = \"" + username + "\"";
-				ResultSet res = t.executeQuery(sqls);
-
-			 %>
-			<center>
+			Statement t = con.createStatement();
+			String sqls = "SELECT r.InvoiceNo\n" + "FROM Reservation r\n" + "WHERE r.Username = \"" + username + "\"";
+			ResultSet res = t.executeQuery(sqls);
+	%>
+		<center>
 			<form action = "mainOrderPage.jsp">
 				<input type = "Submit" value = "Make a Reservation" name = "reservation">
 			</form>
-			
-			<br><br>
+			<br>
+			<br>
 		    <h1> Your Reservations</h1>
-		        	<form action="Reviewpage.jsp">
+		        <form action="Reviewpage.jsp">
 		        	<select name="invoiceNum" size=1>
 		        	<%  while(res.next()){ %>
-		        	<option value="<%= res.getString(1) %>"><%= res.getString(1) %></option>
+		        		<option value="<%= res.getString(1) %>"><%= res.getString(1) %></option>
 		        	 <% } %>
-		        	 </select>
-		        	 <input type = "Submit" value = "view">
-		        	</form>
-		            <br>
-			</center>
+		        	</select>
+		        	<input type = "Submit" value = "view">
+		        </form>
+		    <br>
+		</center>
 			
 		<%}
 		catch(Exception e){
@@ -53,6 +50,7 @@
 	%>
 
 </body>
+
 <style>
 input[name = reservation]{
 		height: 150px;
@@ -61,4 +59,5 @@ input[name = reservation]{
     	font-size:36px;
 	}
 </style>
+
 </html>

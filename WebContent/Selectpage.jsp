@@ -13,32 +13,31 @@
  <font size = 6>Your choice for Breakfast and Service </font></center>
  <br>
  <%
-	  int cid = 0;
 	  try{
 		   Class.forName("com.mysql.jdbc.Driver");
 		   Connection con = DriverManager.getConnection("jdbc:mysql://jtsr336db.c8venqrmdpbq.us-east-2.rds.amazonaws.com:3306/hoteldb", "JTSR","336HotelJTSR");
-		   
 		   String  hotelID = "1";
-		   
-		    Statement t = con.createStatement();
-		    String sqlbreakfast  = "SELECT Btype.bType\n" + "FROM Breakfast Btype\n" + "WHERE Btype.HotelID = \"" + hotelID + "\"";
-			
-          ResultSet resBreakfast = t.executeQuery(sqlbreakfast);
-         
-        	 // ResultSet resservice  =  t.executeQuery(sqlservice);
-		    %>
-		  	<form method="post" action="paymentinfo.jsp">
-		   <center>
-		      <h1> select breakfast type</h1>
-		          
-		       
-		          <%  while(resBreakfast.next()){ %>
-		            <br> 
-		             Breakfast Type: <%= resBreakfast.getString(1)%><input type="number" min="0"name="resbreakfast" >
-		           
-		             <br>
-		          <% } %>
-		           
+		   Statement t = con.createStatement();
+		   String sqlbreakfast  = "SELECT Btype.bType\n" + "FROM Breakfast Btype\n" + "WHERE Btype.HotelID = \"" + hotelID + "\"";	
+           ResultSet resBreakfast = t.executeQuery(sqlbreakfast);
+ %>
+	<form method="post" action="paymentinfo.jsp">
+		<center>
+			<h1> Select Breakfast Type</h1>
+			     
+		 <% int j=0;
+            while(resBreakfast.next()){ 
+	            String tempbreak = "breakfast" + j +"";
+	            String num = "num"+j +"";
+	            String bre = resBreakfast.getString(1);
+         %>
+            <br>
+            <font size =5>Breakfast Type:<%=bre %></font>
+              <input type="hidden"  name= <%= tempbreak %> value = <%=bre %>>
+              <pre>Quantity: <input type ="text" name= <%=num %>></pre>
+              <br><br>
+            <% j++;
+            } %>
            </center>
   
      <%     String sqlservice = "SELECT Stype.sType\n" + "FROM Service Stype\n" + "WHERE Stype.HotelID = \"" + hotelID + "\"";
@@ -46,16 +45,19 @@
 	  %>
 	  
 	  <center>
-		      <h1> select service type</h1>
-		          
-		        
-		          <%  while(resservice.next()){ %>
+		    <h1> Select Service Type</h1> 
+		          <%  int i = 0;
+		          while(resservice.next()){
+		        	String temp = "service" + i + "";
+		        	String num = "num" + i + "";
+		        	String sev = resservice.getString(1);%>
 		            <br> 
-		             service Type: <%= resservice.getString(1)%><input type="number" min="0"  name="resservice" >
-		           
-		             <br>
-		          <% } %>
-		           
+		            <font size = 5> Service Type:  <%= sev %> </font>
+		            <input type = "hidden" name = <%= temp %> value = <%= sev%>>
+		            <pre>Quantity:<input type="text"  name= <%= num %>> </pre>
+		            <br><br>
+		          <% i++;
+		          } %>
            </center>
 		
 	
@@ -64,11 +66,21 @@
 		   e.printStackTrace();
 	  }
  %>
- <br>
-  <br><center>
- <input type="submit" value="submit">
- </center>
+<br><br>
+	<center>
+ 		<input type = "Submit" name = "submit" value = "submit>">
+ 	</center>
  
-  </form>
- </body>
+	</form>
+</body>
+
+ <style>
+ input[name = submit]{
+ 		height: 50px;
+		width: 100px;
+		border: none;
+    	font-size:24px;
+ }
+ </style>
+ 
  </html>

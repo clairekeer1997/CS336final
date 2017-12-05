@@ -17,6 +17,7 @@
 		Connection con = DriverManager.getConnection("jdbc:mysql://jtsr336db.c8venqrmdpbq.us-east-2.rds.amazonaws.com:3306/hoteldb", "JTSR","336HotelJTSR");
 		String entity = request.getParameter("CommentType");
 		System.out.println("entity" + entity);
+		
 		if(entity.equals("room")){
 			String hotelid1 = request.getParameter("hotelID1");
 			String roomid1 = request.getParameter("roomID1");
@@ -29,8 +30,7 @@
 					" WHERE HotelID=" +hotelid1 + " AND RoomNo=" + roomid1+ " AND inDate=" + "'" + checkin+ "'"+";"; 
 			Statement st= con.createStatement();
 			int i = st.executeUpdate(update);
-			System.out.println("i = " + i);
-			
+		
 		}else if(entity.equals("br")){
 			String bfid = request.getParameter("bfID");
 			System.out.println("bfid" + bfid);
@@ -41,6 +41,7 @@
 					" WHERE BreakfastID =" + bfid + ";"; 
 			Statement st= con.createStatement();
 			int i = st.executeUpdate(update);
+			
 		}else if(entity.equals("sev")){
 			String sevid = request.getParameter("sevID");
 			String rating = request.getParameter("rating");
@@ -50,7 +51,6 @@
 					" WHERE ServiceID=" +sevid + ";"; 
 			Statement st= con.createStatement();
 			int i = st.executeUpdate(update);
-			System.out.println("k = " + i);
 		}
 	}
 	catch(Exception e){
