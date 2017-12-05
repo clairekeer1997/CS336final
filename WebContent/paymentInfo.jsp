@@ -22,15 +22,6 @@
 	String eDate = request.getParameter("endDate");
 	session.setAttribute("e", eDate);
 	
-	if(sDate != null || eDate != null){
-		%>
-		<script>
-			alert("Please populate the calendar dates.");
-			window.location.href = "mainOrderPage.jsp"
-		</script>
-		<%		
-	}
-	
 %>
 <font size = 6>Welcome to JTSR Hotels </font>
 <br>
