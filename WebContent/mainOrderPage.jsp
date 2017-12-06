@@ -52,7 +52,7 @@
 <body>
 <font size = 6>Welcome to JTSR Hotels </font>
 <br>
-	<form method = "post" action = "paymentInfo.jsp">
+	<form method = "post" action = "Selectpage.jsp">
 	<center>
 	<h1>Make Your Reservation</h1>
 	<table>
@@ -62,16 +62,18 @@
 			Connection con = DriverManager.getConnection("jdbc:mysql://jtsr336db.c8venqrmdpbq.us-east-2.rds.amazonaws.com:3306/hoteldb", "JTSR","336HotelJTSR");
 			
 			Statement t = con.createStatement();
-			String sqls = "SELECT h.Name\n" + "FROM Hotel h";
+			String sqls = "SELECT h.Name, h.HotelID\n" + "FROM Hotel h";
 			ResultSet res = t.executeQuery(sqls);
 	%>
 	<tr><td>Select a Hotel: </td><td>
 	<select name = "hotelSelection">
-		<%  while(res.next()){ %>
-			<option><%= res.getString(1)%></option>
-		        <% } 
-		        con.close();
-		        %>
+		<%  while(res.next()){ 
+		String hotelid = res.getString(2);
+		String hotelname = res.getString(1);%>
+			<option value = <%= hotelid %>> <%= hotelname%></option>
+		<%} 
+		con.close();
+		%>
 	</select>
 	</td></tr>
 	<%}

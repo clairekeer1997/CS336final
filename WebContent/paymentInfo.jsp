@@ -13,18 +13,56 @@
 
 <body>
 <%
-	String hotelName = request.getParameter("hotelSelection");
-	session.setAttribute("h", hotelName);
-	String roomType = request.getParameter("roomType");
-	session.setAttribute("r", roomType);
-	String sDate = request.getParameter("startDate");
-	session.setAttribute("startDate", sDate);
-	String eDate = request.getParameter("endDate");
-	session.setAttribute("e", eDate);
+	Class.forName("com.mysql.jdbc.Driver");
+	Connection con = DriverManager.getConnection("jdbc:mysql://jtsr336db.c8venqrmdpbq.us-east-2.rds.amazonaws.com:3306/hoteldb", "JTSR","336HotelJTSR");
+	Statement t = con.createStatement();
 	
+	int i = 0;//number of type of serivice
+	int j = 0;//number of type of breakfast
+	float bre_cost = 0;
+	float ser_cost = 0;
+	String hotelId = session.getAttribute("h").toString();
+	
+	String sqlbreakfast  = "SELECT bType, bPrice" + " FROM Breakfast" + " WHERE HotelID = '" + hotelId + "' " + " ORDER BY bType ASC";	
+	ResultSet resBreakfast = t.executeQuery(sqlbreakfast);
+	
+	/*calculate breakfast price*/
+	while(resBreakfast.next()){
+		String textName = "num" + j + "";
+		
+		int numBreakfast = 0;
+		if(request.getParameter(textName) != ""){
+			numBreakfast = Integer.parseInt (request.getParameter(textName));
+		}
+		float price = resBreakfast.getFloat(2);
+		bre_cost += price * numBreakfast;
+		j++;
+	}
+
+	/*calculate service price*/
+	String sqlservice = "SELECT sType, sCost " + " FROM Service" + " WHERE HotelID = '" + hotelId + "' " + " ORDER BY sType ASC";
+	ResultSet resservice  =  t.executeQuery(sqlservice);
+	
+	while(resservice.next()){
+		String textName = "number" + i + "";
+		int numReserve = 0;
+		
+		if(request.getParameter(textName) != ""){
+			numReserve = Integer.parseInt (request.getParameter(textName));
+			
+		}
+		
+		float price = resservice.getFloat(2);
+		ser_cost += price * numReserve;
+		i++;
+	}
+	out.print(ser_cost);
+	
+	session.setAttribute("bre_cost", bre_cost);
+	session.setAttribute("ser_cost", ser_cost);
 %>
 <font size = 6>Welcome to JTSR Hotels </font>
-<br>
+<br>	
 	<form method = "post" action = "successfulPay.jsp">
 	<center>
 	<h1>Fill Your Payment</h1>
@@ -65,77 +103,6 @@
 	
 	</center>
 	</form>
-
-<%
-	//insert data in mainOrderPage into database first
-	try{
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection con = DriverManager.getConnection("jdbc:mysql://jtsr336db.c8venqrmdpbq.us-east-2.rds.amazonaws.com:3306/hoteldb", "JTSR","336HotelJTSR");
-		
-		/* automatic generate invoiceNo for each reservation*/
-		Statement stmt = con.createStatement();	
-		String str = "SELECT MAX(r.InvoiceNo) as cnt FROM Reservation r";
-		ResultSet result = stmt.executeQuery(str);
-		result.next();
-		int invoiceNo = result.getInt("cnt") + 1;
-		out.println("invoiceNo: " + invoiceNo);
-		
-		/*temple dynamic username*/
-		//String userName = session.getAttribute("user_name").toString();
-		//out.println("userName: " + userName);
-		
-		/*get Card Number*/
-		String cardNum = request.getParameter("cardNum");
-		out.println("cardNum: " + cardNum);
-		
-		/*get reservation date*/
-		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat today = new SimpleDateFormat("yyyy-MM-dd");
-		String date = today.format(calendar.getTime());
-		out.println("date: " + date);
-		
-		/*get expect expMon and expYear*/
-		String expMon  = request.getParameter("expMon");
-		String expYear = request.getParameter("expYear");
-		out.println("expMon: " + expMon + "expYear: " + expYear);
-
-		
-		/*get card type*/
-		String cardType = request.getParameter("cardType");
-		out.println(cardType);
-		
-		/*get security code(cvv)*/
-		String cvv = request.getParameter("cvv");
-		out.println("cvv: " + cvv);
-		
-		/*get first name and Last name*/
-		String firstName = request.getParameter("firstName");
-		String lastName = request.getParameter("lastName");
-		out.println("First Name: " + firstName + "Last Name: " + lastName);
-		
-		/*get billing address street, state, zip*/
-		String billStr = request.getParameter("billStr");
-		String billSta = request.getParameter("billSta");
-		String billZip = request.getParameter("billZip");
-		out.println("billStr: " + billStr + "billSta: " + billSta + "billZip" + billZip);
-		
-		/*get total amount*/
-		String inDate = request.getParameter("startDate");
-		String outDate = request.getParameter("endDate");
-		out.print("startDate: " + inDate + "endDate: " + outDate);
-		
-		/*convert string to date and calculate the number of day that customer will stay*/
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-		Date startDate = format.parse(inDate);
-		Date endDate = format.parse(outDate);
-		long diff = endDate.getTime() - startDate.getTime();
-	    long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-	    out.println("days: " + days);
-	    
-	}catch (Exception e){
-		e.printStackTrace();
-	}
-%>
 
 </body>
 </html>

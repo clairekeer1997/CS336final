@@ -70,12 +70,11 @@
 		    out.println("days: " + days);
 		    
 			/*query hotelId*/
-			String hotelName = session.getAttribute("h").toString();
+			String hotelID = session.getAttribute("h").toString();
 			String roomType  = session.getAttribute("r").toString();
-			sqls = "SELECT h.HotelID FROM Hotel h Where h.Name = '" + hotelName + "'";
-			res = t.executeQuery(sqls);
-			res.next();
-			int hotelId = res.getInt(1);
+
+			int hotelId = Integer.parseInt(hotelID);
+			out.print("HOTELID: " + hotelId);
 			
 			/*Using hotelId and roomType to query room price per day*/
 			sqls = "SELECT Price FROM Room Where HotelID = '" + hotelId + "'" + " AND Type = " + "'" + roomType + "'";
@@ -156,7 +155,8 @@
 				isDis = false;
 			}
 			
-			long fullPriceStay = days;//to calculate how many days keep original price
+			long fullPriceStay = days;//to calculate how many days without discount
+			
 			do{
 				if(isDis == false){
 					break;
@@ -203,6 +203,14 @@
 			stayPrice = (float)Math.round(stayPrice * 100f) / 100f;
 			out.print(stayPrice);
 
+			/*get breakfast price and service price*/
+			float bre_cost = (Float) session.getAttribute("bre_cost");
+			float ser_cost = (Float) session.getAttribute("ser_cost");
+			
+			/*calculate full price*/
+			float fullPrice = bre_cost + ser_cost + stayPrice;
+			
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
