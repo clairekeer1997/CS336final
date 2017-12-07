@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="java.io.*,java.util.*,java.sql.*,java.util.Calendar,java.text.SimpleDateFormat,java.util.Date, java.text.DateFormat, java.util.concurrent.TimeUnit"%>
+<%@ page import="java.io.*,java.util.*,java.sql.*,java.util.Calendar,java.text.SimpleDateFormat,java.sql.Date, java.text.DateFormat, java.util.concurrent.TimeUnit"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
  
 
@@ -29,13 +29,18 @@
 	/*calculate breakfast price*/
 	while(resBreakfast.next()){
 		String textName = "num" + j + "";
-		
+		String brePass = "brePass" + j + "";
+		out.print(brePass);
 		int numBreakfast = 0;
 		if(request.getParameter(textName) != ""){
 			numBreakfast = Integer.parseInt (request.getParameter(textName));
 		}
 		float price = resBreakfast.getFloat(2);
 		bre_cost += price * numBreakfast;
+		
+		//pass number of Breakfast to successful Page
+		session.setAttribute( brePass , numBreakfast);
+		
 		j++;
 	}
 
@@ -45,6 +50,8 @@
 	
 	while(resservice.next()){
 		String textName = "number" + i + "";
+		String serPass = "serPass" + i + "";
+		
 		int numReserve = 0;
 		
 		if(request.getParameter(textName) != ""){
@@ -54,6 +61,8 @@
 		
 		float price = resservice.getFloat(2);
 		ser_cost += price * numReserve;
+		
+		session.setAttribute( serPass , numReserve);
 		i++;
 	}
 	out.print(ser_cost);
