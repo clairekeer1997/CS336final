@@ -19,8 +19,8 @@
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://jtsr336db.c8venqrmdpbq.us-east-2.rds.amazonaws.com:3306/hoteldb", "JTSR","336HotelJTSR");
 			
-			//String username = session.getAttribute("user_name").toString();
-			String username = "teacher1";
+			String username = session.getAttribute("user_name").toString();
+			//String username = "teacher1";
 			Statement t = con.createStatement();
 			String sqls = "SELECT r.InvoiceNo\n" + "FROM Reservation r\n" + "WHERE r.Username = \"" + username + "\"";
 			ResultSet res = t.executeQuery(sqls);
@@ -59,5 +59,7 @@ input[name = reservation]{
     	font-size:36px;
 	}
 </style>
+
+<a href="LoginRegistration.jsp">Logout</a>
 
 </html>

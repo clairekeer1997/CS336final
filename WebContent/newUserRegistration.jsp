@@ -26,6 +26,8 @@
 		String zip = request.getParameter("AddrZip");
 		String phone = request.getParameter("Phone_No");
 		
+		boolean isBad = false;
+		
 		//Check Nulls
 		if(username.equals("") || password.equals("") || firstname.equals("") || lastname.equals("") || email.equals("")
 				|| street.equals("") || city.equals("") || state.equals("") || zip.equals("") || phone.equals("")){
@@ -35,6 +37,7 @@
 				window.location.href = "LoginRegistration.jsp"
 			</script>
 			<%
+			isBad = true;
 		}	
 		
 		//Check Length
@@ -47,6 +50,7 @@
 				window.location.href = "LoginRegistration.jsp"
 			</script>
 			<%
+			isBad = true;
 		}
 		
 		//Check Password Min Length
@@ -57,6 +61,7 @@
 				window.location.href = "LoginRegistration.jsp"
 			</script>
 			<%
+			isBad = true;
 		}
 		
 		//Ensure name is only characters
@@ -67,6 +72,7 @@
 				window.location.href = "LoginRegistration.jsp"
 			</script>
 			<%
+			isBad = true;
 		}
 		
 		//Attempt to validate email
@@ -78,6 +84,7 @@
 				window.location.href = "LoginRegistration.jsp"
 			</script>
 			<%			
+			isBad = true;
 		}
 		
 		//Phone No should consist only of numbers and be >= 8 and <= 15
@@ -88,6 +95,7 @@
 				window.location.href = "LoginRegistration.jsp"
 			</script>
 			<%			
+			isBad = true;
 		}
 		
 		//Create a connection string
@@ -110,7 +118,8 @@
 				alert("Username already exists. Please try again.");
 				window.location.href = "LoginRegistration.jsp"
 			</script>
-			<%			
+			<%		
+			isBad = true;
 		}
 
 		//Check if First name, last name and address and phone number already exists (Probably same person)
@@ -124,6 +133,8 @@
 			"' AND Phone_No = '" + phone +
 			"'";
 		result = stmt.executeQuery(str);
+	
+	
 		if(result.next()){
 			%>
 			<script>
@@ -131,6 +142,7 @@
 				window.location.href = "LoginRegistration.jsp"
 			</script>
 			<%			
+			isBad = true;
 		}
 
 		//Check if Phone number already exists
@@ -143,6 +155,7 @@
 				window.location.href = "LoginRegistration.jsp"
 			</script>
 			<%			
+			isBad = true;
 		}
 		
 		//Check if email already exists
@@ -155,33 +168,37 @@
 				window.location.href = "LoginRegistration.jsp"
 			</script>
 			<%			
+			isBad = true;
 		}
 		
 		//Good input -- Insert new user
-		String insert = "INSERT INTO Customer(Username, Password, Email, AddrStreet, AddrCity, AddrState, AddrCountry, AddrZip, Phone_No, FirstName, LastName) "
-			+ " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		if(!isBad){
+			String insert = "INSERT INTO Customer(Username, Password, Email, AddrStreet, AddrCity, AddrState, AddrCountry, AddrZip, Phone_No, FirstName, LastName) "
+				+ " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 						
-		PreparedStatement ps = con.prepareStatement(insert);
-		ps.setString(1, username);
-		ps.setString(2, password);
-		ps.setString(3, email);
-		ps.setString(4, street);
-		ps.setString(5, city);
-		ps.setString(6, state);
-		ps.setString(7, country);
-		ps.setString(8, zip);
-		ps.setString(9, phone);
-		ps.setString(10, firstname);
-		ps.setString(11, lastname);
+			PreparedStatement ps = con.prepareStatement(insert);
+			ps.setString(1, username);
+			ps.setString(2, password);
+			ps.setString(3, email);
+			ps.setString(4, street);
+			ps.setString(5, city);
+			ps.setString(6, state);
+			ps.setString(7, country);
+			ps.setString(8, zip);
+			ps.setString(9, phone);
+			ps.setString(10, firstname);
+			ps.setString(11, lastname);
 
-		//Run the query against the DB
-		ps.executeUpdate();
+			//Run the query against the DB
+			ps.executeUpdate();
 
-		session.setAttribute("user_name", username);
+			session.setAttribute("user_name", username);
+		}
+		
 		%>
 		<script>
 			alert("Successfully created new user. Redirecting...");
-			//window.location.href = "test.jsp"
+			window.location.href = "Userpage.jsp"
 		</script>
 		<%
 
