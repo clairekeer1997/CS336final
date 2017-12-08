@@ -16,6 +16,7 @@
 	<br>
 	<br>
 	<%try{
+			request.getSession().removeAttribute("invoiceNo");
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://jtsr336db.c8venqrmdpbq.us-east-2.rds.amazonaws.com:3306/hoteldb", "JTSR","336HotelJTSR");
 			
