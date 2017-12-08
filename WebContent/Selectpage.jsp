@@ -13,15 +13,26 @@
  <font size = 6>Your choice for Breakfast and Service </font></center>
  <br>
  <%
+	String hotelId = request.getParameter("hotelSelection");
+	session.setAttribute("h", hotelId);
+	String roomType = request.getParameter("roomType");
+	session.setAttribute("r", roomType);
+	String sDate = request.getParameter("startDate");
+	session.setAttribute("startDate", sDate);
+	String eDate = request.getParameter("endDate");
+	session.setAttribute("e", eDate);
+	
+%>
+
+ <%
 	  try{
 		   Class.forName("com.mysql.jdbc.Driver");
 		   Connection con = DriverManager.getConnection("jdbc:mysql://jtsr336db.c8venqrmdpbq.us-east-2.rds.amazonaws.com:3306/hoteldb", "JTSR","336HotelJTSR");
-		   String  hotelID = "1";
 		   Statement t = con.createStatement();
-		   String sqlbreakfast  = "SELECT Btype.bType\n" + "FROM Breakfast Btype\n" + "WHERE Btype.HotelID = \"" + hotelID + "\"";	
+		   String sqlbreakfast  = "SELECT Btype.bType\n" + "FROM Breakfast Btype\n" + "WHERE Btype.HotelID = '" + hotelId + "' " + " ORDER BY Btype.bType ASC";	
            ResultSet resBreakfast = t.executeQuery(sqlbreakfast);
  %>
-	<form method="post" action="paymentinfo.jsp">
+	<form method="post" action="paymentInfo.jsp">
 		<center>
 			<h1> Select Breakfast Type</h1>
 			     
@@ -37,10 +48,10 @@
               <pre>Quantity: <input type ="text" name= <%= num %>></pre>
               <br><br>
             <% j++;
-            } %>
+            }  %>
            </center>
   
-     <%     String sqlservice = "SELECT Stype.sType\n" + "FROM Service Stype\n" + "WHERE Stype.HotelID = \"" + hotelID + "\"";
+     <%     String sqlservice = "SELECT Stype.sType\n" + "FROM Service Stype\n" + "WHERE Stype.HotelID = '" + hotelId + "' " + " ORDER BY Stype.sType ASC";
 	        ResultSet resservice  =  t.executeQuery(sqlservice);
 	  %>
 	  
@@ -49,7 +60,7 @@
 		          <%  int i = 0;
 		          while(resservice.next()){
 		        	String temp = "service" + i + "";
-		        	String num = "num" + i + "";
+		        	String num = "number" + i + "";
 		        	String sev = resservice.getString(1);%>
 		            <br> 
 		            <font size = 5> Service Type:  <%= sev %> </font>
