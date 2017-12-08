@@ -75,52 +75,96 @@
 
 			int hotelId = Integer.parseInt(hotelID);
 			out.print("HOTELID: " + hotelId);
+			out.print("roomType: " + roomType);
 			
 			/*Using hotelId and roomType to query room price per day*/
 			sqls = "SELECT Price FROM Room Where HotelID = '" + hotelId + "'" + " AND Type = " + "'" + roomType + "'";
 			res = t.executeQuery(sqls);
-			res.next();
-			float price = res.getFloat(1);
-
-			/*query avaliable room number*/
-			sqls = "SELECT RoomNo, inDate, outDate FROM Reserves Where RoomNo IN ( SELECT DISTINCT RoomNo FROM Room WHERE HotelID ='" + hotelId + "'" + " AND Type = " + "'" + roomType + "' )";
-			out.println(sqls);
-			res = t.executeQuery(sqls);
 			if(!res.next()){
 				%>
 				<script>
-					alert("No such type for this Hotel. Please change your roomType selections or change your hotel selection.");
+					alert("No such type of room in this Hotel. Please change your roomType selections or change your hotel selection.");
 					window.location.href = "mainOrderPage.jsp";
 				</script>
 				<%
 			}
+			float price = res.getFloat(1);
+
+			/*In case to situation like: For example, room 1 and room 2 are all standard room type. Room 1 is not avaliable during the selected time period. Room 2 is avaliable due to no one ordered room 2 before. But I can not know room 2 is avaliable through the query. there is no room 2 record in reserves table.*/
+			sqls = "SELECT DISTINCT RoomNo FROM Room WHERE HotelID ='" + hotelId + "'" + " AND Type = " + "'" + roomType + "' ";
+			res = t.executeQuery(sqls);
+			ArrayList roomList = new ArrayList();		
+
+			while(res.next()){
+				roomList.add(res.getInt(1));	
+			}
 			
+			/*query avaliable room number*/
 			int roomNo = -1;
 			boolean isAva = true;
-			do{
-				int tmpRoomNo = res.getInt(1);
-				
+			boolean isEmpty = false;
+			sqls = "SELECT RoomNo, inDate, outDate FROM Reserves Where RoomNo IN ( SELECT DISTINCT RoomNo FROM Room WHERE HotelID ='" + hotelId + "'" + " AND Type = " + "'" + roomType + "' )";
+			out.println(sqls);
+			res = t.executeQuery(sqls);
+			
+			if(!res.next()){
+				roomNo  = ((Integer) roomList.get(0)).intValue();
+				isEmpty = true;
+			}
+			
+			do{	
+					if(isEmpty){
+						break;
+					}
+
+					int tmpRoomNo = res.getInt(1);
+
 					Date startQuery = format.parse(res.getString(2));
 					Date endQuery   = format.parse(res.getString(3));
 					
 					if(startDate.after(startQuery) &&
 					   startDate.before(endQuery)){
-						isAva = false;
 						continue;
 					}
 					if(endDate.after(startQuery) &&
 					   endDate.before(endQuery)){
 						isAva = false;
+						//delete the room already be checked.
+						Integer myInt = Integer.valueOf(tmpRoomNo);
+						Object myObject = myInt;
+						boolean is = roomList.remove(myObject);
+						
 						continue;
 					}
 					if(startQuery.after(startDate) &&
 					   startQuery.before(endDate)){
 						isAva = false;
+						//delete the room already be checked.
+						Integer myInt = Integer.valueOf(tmpRoomNo);
+						Object myObject = myInt;
+						boolean is = roomList.remove(myObject);
 						continue;
 					}
 					if(endQuery.after(startDate) &&
 					   endQuery.before(endDate)){
 						isAva = false;
+						
+						//delete the room already be checked.
+						Integer myInt = Integer.valueOf(tmpRoomNo);
+						Object myObject = myInt;
+						boolean is = roomList.remove(myObject);
+						
+						continue;
+					}
+					if(startQuery.equals(startDate) &&
+					   endQuery.equals(endDate)){
+						isAva = false;
+
+						//delete the room already be checked.
+						Integer myInt = Integer.valueOf(tmpRoomNo);
+						Object myObject = myInt;
+						boolean is = roomList.remove(myObject);
+						
 						continue;
 					}
 
@@ -131,16 +175,18 @@
 				}
 
 			}while(res.next() && isAva == false);
-
-			if(isAva == false){//if no room avaliable at that date, return main page
+			
+			if(isAva == false && !roomList.isEmpty()){
+				roomNo  = ((Integer) roomList.get(0)).intValue();
+			}else if(isAva == false && isEmpty == false && roomList.isEmpty()){//if no room avaliable at that date, return main page
 				%>
 				<script>
-					alert("No room available for this type of room. Please change your roomType selections or change your hotel selection.");
+					alert("No such room avaliable during this time period. Please change your roomType selections or change your hotel selection.");
 					window.location.href = "mainOrderPage.jsp"
 				</script>
 				<%
 			}
-			
+
 			/*query discount information for that room and calculate total price for room*/
 			float discount;
 			boolean isDis = true;
@@ -160,6 +206,7 @@
 				if(isDis == false){
 					break;
 				}
+
 					Date discountStart = format.parse(res.getString(1));
 					Date discountEnd   = format.parse(res.getString(2));
 					discount = res.getFloat(3);
@@ -228,7 +275,7 @@
 			pst.setString(12, billStr);
 			pst.setString(13, billSta);
 			pst.setString(14, billZip);
-			pst.executeUpdate();
+			//pst.executeUpdate();
 			
 			/*insert Reserves table*/
 			ins = "INSERT INTO Reserves(HotelId, RoomNo, InvoiceNo , inDate, outDate , NoOfDays) "
@@ -240,7 +287,7 @@
 			pst.setString(4, inDate);
 			pst.setString(5, outDate);
 			pst.setInt(6, days);
-			pst.executeUpdate();
+			//pst.executeUpdate();
 
 			
 			/*get the number of BreakfastID*/
@@ -274,7 +321,7 @@
 					ps.setInt(4, invoiceNo);
 					//test purpose
 					ps.setString(5, breakfastType);
-					ps.executeUpdate();
+					//ps.executeUpdate();
 					breakfastId++;
 				}
 				j++;
@@ -311,7 +358,7 @@
 					ps.setInt(4, invoiceNo);
 					//test purpose
 					ps.setString(5, serviceType);
-					ps.executeUpdate();
+					//ps.executeUpdate();
 					ServiceId++;
 				}
 				i++;
@@ -325,5 +372,6 @@
 			
 
 %>
+
 </body>
 </html>
