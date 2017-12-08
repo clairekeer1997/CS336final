@@ -34,7 +34,7 @@
             <br>
             <font size =5>Breakfast Type:<%=bre %></font>
               <input type="hidden"  name= <%= tempbreak %> value = <%=bre %>>
-              <pre>Quantity: <input type ="text" name= <%=num %>></pre>
+              <pre>Quantity: <input type ="text" name= <%= num %>></pre>
               <br><br>
             <% j++;
             } %>

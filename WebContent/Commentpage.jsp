@@ -25,6 +25,14 @@
 			String checkout = request.getParameter("outDate");
 			String rating = request.getParameter("rating");
 			String comment = request.getParameter("paragraph_text");
+			if(rating.matches("[a-zA-Z]*")){ //|| Integer.parseInt(rating) > 10 || Integer.parseInt(rating) < 0){
+				%>
+				<script>
+					alert("Invaild Rating Input.");
+					window.location.href = "Reviewpage.jsp"
+				</script>
+				<%
+			}
 			String update = "UPDATE Reserves SET Rating= " + rating +
 					", TextComment= "+"'"+  comment + "'"+
 					" WHERE HotelID=" +hotelid1 + " AND RoomNo=" + roomid1+ " AND inDate=" + "'" + checkin+ "'"+";"; 
@@ -33,9 +41,16 @@
 		
 		}else if(entity.equals("br")){
 			String bfid = request.getParameter("bfID");
-			System.out.println("bfid" + bfid);
 			String rating = request.getParameter("rating");
 			String comment = request.getParameter("paragraph_text");
+			if(Integer.parseInt(rating) > 10 || Integer.parseInt(rating) < 0){
+				%>
+				<script>
+					alert("Invaild Rating Input.");
+					window.location.href = "Reviewpage.jsp"
+				</script>
+				<%
+			}
 			String update = "UPDATE bTypeOrdered SET Rating = " + rating +
 					", TextComment= "+"'"+  comment + "'"+
 					" WHERE BreakfastID =" + bfid + ";"; 
@@ -46,6 +61,14 @@
 			String sevid = request.getParameter("sevID");
 			String rating = request.getParameter("rating");
 			String comment = request.getParameter("paragraph_text");
+			if(Integer.parseInt(rating) > 10 || Integer.parseInt(rating) < 0){
+				%>
+				<script>
+					alert("Invaild Rating Input.");
+					window.location.href = "Reviewpage.jsp"
+				</script>
+				<%
+			}
 			String update = "UPDATE sTypeOrdered SET Rating= " + rating +
 					", TextComment= "+"'"+  comment + "'"+
 					" WHERE ServiceID=" +sevid + ";"; 
