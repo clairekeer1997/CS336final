@@ -102,17 +102,8 @@
 			Statement t = con.createStatement();
 			String sqls = "SELECT s.sType\n" + "FROM Service s";
 			ResultSet res = t.executeQuery(sqls);
-	%>
-	<tr><td>Service: </td><td>
-	<select name = "serviceSelection">
-		<%  while(res.next()){ %>
-			<option><%= res.getString(1)%></option>
-		        <% } 
-		        con.close();
-		        %>
-	</select>
-	</td></tr>
-	<%}
+		}
+	
 		catch(Exception e){
 			e.printStackTrace();
 		}
