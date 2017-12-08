@@ -105,8 +105,8 @@
 			<tr><td>BillingAddrStreet: <input type = "text" maxlength = "30" size = "30" name = "billStr"></td></tr>
 			<tr><td>BillingAddrState: <input type = "text" maxlength = "30" size = "30" name = "billSta"></td></tr>
 			<tr><td>BillingAddrZip: <input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength = "30" size = "30" name = "billZip"></td></tr>
-			<tr><td> <input type = "submit" id = "successOrder" value = "Check Out"></td></tr>
-					
+			<tr><td> <input type = "submit" name = "successOrder" value = "Check Out"></td></tr>
+			<tr><td> <input type = "submit" name = "makeAnotherOrder" value = "Check Out with the same Invoice number"></td></tr>
 		</table>
 	
 	
@@ -114,4 +114,5 @@
 	</form>
 
 </body>
+<a href="LoginRegistration.jsp">Logout</a>
 </html>

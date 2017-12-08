@@ -93,5 +93,5 @@
     	font-size:24px;
  }
  </style>
- 
+ <a href="LoginRegistration.jsp">Logout</a>
  </html>

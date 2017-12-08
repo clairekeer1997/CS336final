@@ -115,4 +115,5 @@
 	</form>
 
 </body>
+<a href="LoginRegistration.jsp">Logout</a>
 </html>

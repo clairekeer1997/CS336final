@@ -9,6 +9,12 @@
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://jtsr336db.c8venqrmdpbq.us-east-2.rds.amazonaws.com:3306/hoteldb", "JTSR","336HotelJTSR");
+			boolean isBad = false;
+			
+			/*get submit status*/
+			String makeAnotherOrder = request.getParameter("makeAnotherOrder");
+			String ssfOrder = request.getParameter("successOrder");
+			out.print(makeAnotherOrder);
 			
 			/* automatic generate invoiceNo for each reservation*/
 			Statement t = con.createStatement();	
@@ -87,6 +93,7 @@
 					window.location.href = "mainOrderPage.jsp";
 				</script>
 				<%
+				isBad = true;
 			}
 			float price = res.getFloat(1);
 
@@ -185,6 +192,7 @@
 					window.location.href = "mainOrderPage.jsp";
 				</script>
 				<%
+				isBad = true;
 			}
 
 			/*query discount information for that room and calculate total price for room*/
@@ -256,112 +264,131 @@
 			/*calculate total amount*/
 			float totalAmt = bre_cost + ser_cost + stayPrice;
 			
-			/*insert reservation table*/
-			String ins = "INSERT INTO Reservation(InvoiceNo , Username , Cnumber , ResDate , TotalAmt, ExpMonth , ExpYear , Type ,SecCode ,FirstName ,LastName ,BillingAddrStreet ,BillingAddrState ,BillingAddrZip ) "
-							+ " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			PreparedStatement pst = con.prepareStatement(ins);
-			pst.setInt(1, invoiceNo);
-			pst.setString(2,"teacher1");
-			//test.purpose
-			pst.setString(3, cardNum);
-			pst.setString(4, date);
-			pst.setFloat(5, totalAmt);
-			pst.setString(6, expMon);
-			pst.setString(7, expYear);
-	    	pst.setString(8, cardType);
-			pst.setString(9, cvv);
-			pst.setString(10, firstName);
-			pst.setString(11, lastName);
-			pst.setString(12, billStr);
-			pst.setString(13, billSta);
-			pst.setString(14, billZip);
-			//pst.executeUpdate();
+			if(!isBad){
+				/*insert reservation table*/
+				String ins = "INSERT INTO Reservation(InvoiceNo , Username , Cnumber , ResDate , TotalAmt, ExpMonth , ExpYear , Type ,SecCode ,FirstName ,LastName ,BillingAddrStreet ,BillingAddrState ,BillingAddrZip ) "
+								+ " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				PreparedStatement pst = con.prepareStatement(ins);
+				pst.setInt(1, invoiceNo);
+				pst.setString(2,"teacher1");
+				//test.purpose
+				pst.setString(3, cardNum);
+				pst.setString(4, date);
+				pst.setFloat(5, totalAmt);
+				pst.setString(6, expMon);
+				pst.setString(7, expYear);
+		    	pst.setString(8, cardType);
+				pst.setString(9, cvv);
+				pst.setString(10, firstName);
+				pst.setString(11, lastName);
+				pst.setString(12, billStr);
+				pst.setString(13, billSta);
+				pst.setString(14, billZip);
+				//pst.executeUpdate();
 			
-			/*insert Reserves table*/
-			ins = "INSERT INTO Reserves(HotelId, RoomNo, InvoiceNo , inDate, outDate , NoOfDays) "
-							+ " VALUES(?, ?, ?, ?, ?, ?)";
-			pst = con.prepareStatement(ins);
-			pst.setInt(1, hotelId);
-			pst.setInt(2, roomNo);
-			pst.setInt(3, invoiceNo);
-			pst.setString(4, inDate);
-			pst.setString(5, outDate);
-			pst.setInt(6, days);
-			//pst.executeUpdate();
-
+				/*insert Reserves table*/
+				ins = "INSERT INTO Reserves(HotelId, RoomNo, InvoiceNo , inDate, outDate , NoOfDays) "
+								+ " VALUES(?, ?, ?, ?, ?, ?)";
+				pst = con.prepareStatement(ins);
+				pst.setInt(1, hotelId);
+				pst.setInt(2, roomNo);
+				pst.setInt(3, invoiceNo);
+				pst.setString(4, inDate);
+				pst.setString(5, outDate);
+				pst.setInt(6, days);
+				//pst.executeUpdate();
 			
-			/*get the number of BreakfastID*/
-			sqls = "SELECT MAX(BreakfastID) as cnt FROM bTypeOrdered";
-			res = t.executeQuery(sqls);
-			res.next();
-			int breakfastId = res.getInt("cnt") + 1;
-			
-			/*insert bTypeOrdered*/
-			sqls = "SELECT bType" + " FROM Breakfast" + " WHERE HotelID = '" + hotelId + "' " + " ORDER BY bType ASC";
-			res = t.executeQuery(sqls);
-			int j = 0;
-			
-			while(res.next()){
-				String passString = "brePass" + j + "";
-				int numBreakfast = Integer.parseInt(session.getAttribute(passString).toString());
-				String breakfastType = res.getString(1);
-
-				int tmpNum = 0;
-				for(;tmpNum < numBreakfast; tmpNum ++){
-					
-					//insert into bTypeOrdered table
-					//breakfastId, hotelId, roomNo, invoiceNo,breakfastType
-					String insert = "INSERT INTO bTypeOrdered(BreakfastID, HotelID, RoomNo, InvoiceNo, bType) "
-									+ " VALUES(?, ?, ?, ?, ?)";
-					
-					PreparedStatement ps = con.prepareStatement(insert);
-					ps.setInt(1, breakfastId);
-					ps.setInt(2, hotelId);
-					ps.setInt(3, roomNo);
-					ps.setInt(4, invoiceNo);
-					//test purpose
-					ps.setString(5, breakfastType);
-					//ps.executeUpdate();
-					breakfastId++;
+				/*get the number of BreakfastID*/
+				sqls = "SELECT MAX(BreakfastID) as cnt FROM bTypeOrdered";
+				res = t.executeQuery(sqls);
+				res.next();
+				int breakfastId = res.getInt("cnt") + 1;
+				
+				/*insert bTypeOrdered*/
+				sqls = "SELECT bType" + " FROM Breakfast" + " WHERE HotelID = '" + hotelId + "' " + " ORDER BY bType ASC";
+				res = t.executeQuery(sqls);
+				int j = 0;
+				
+				while(res.next()){
+					String passString = "brePass" + j + "";
+					int numBreakfast = Integer.parseInt(session.getAttribute(passString).toString());
+					String breakfastType = res.getString(1);
+	
+					int tmpNum = 0;
+					for(;tmpNum < numBreakfast; tmpNum ++){
+						
+						//insert into bTypeOrdered table
+						//breakfastId, hotelId, roomNo, invoiceNo,breakfastType
+						String insert = "INSERT INTO bTypeOrdered(BreakfastID, HotelID, RoomNo, InvoiceNo, bType) "
+										+ " VALUES(?, ?, ?, ?, ?)";
+						
+						PreparedStatement ps = con.prepareStatement(insert);
+						ps.setInt(1, breakfastId);
+						ps.setInt(2, hotelId);
+						ps.setInt(3, roomNo);
+						ps.setInt(4, invoiceNo);
+						//test purpose
+						ps.setString(5, breakfastType);
+						//ps.executeUpdate();
+						breakfastId++;
+					}
+					j++;
 				}
-				j++;
-			}
-			
-			/*get the number of ServiceID*/
-			sqls = "SELECT MAX(ServiceID) as c FROM sTypeOrdered";
-			res = t.executeQuery(sqls);
-			res.next();
-			int ServiceId = res.getInt("c") + 1;
-			
-			/*insert bTypeOrdered*/
-			sqls = "SELECT sType" + " FROM Service" + " WHERE HotelID = '" + hotelId + "' " + " ORDER BY sType ASC";
-			res = t.executeQuery(sqls);
-			int i = 0;
-			
-			while(res.next()){
-				String passString = "serPass" + i + "";
-				int numService = Integer.parseInt(session.getAttribute(passString).toString());
-				String serviceType = res.getString(1);
-
-				int tmpNum = 0;
-				for(;tmpNum < numService; tmpNum ++){
-					
-					//insert into bTypeOrdered table
-					//ServiceId, hotelId, roomNo, invoiceNo,serviceType
-					String insert = "INSERT INTO sTypeOrdered(ServiceId, HotelID, RoomNo, InvoiceNo, sType) "
-									+ " VALUES(?, ?, ?, ?, ?)";
-					
-					PreparedStatement ps = con.prepareStatement(insert);
-					ps.setInt(1, ServiceId);
-					ps.setInt(2, hotelId);
-					ps.setInt(3, roomNo);
-					ps.setInt(4, invoiceNo);
-					//test purpose
-					ps.setString(5, serviceType);
-					//ps.executeUpdate();
-					ServiceId++;
+				
+				/*get the number of ServiceID*/
+				sqls = "SELECT MAX(ServiceID) as c FROM sTypeOrdered";
+				res = t.executeQuery(sqls);
+				res.next();
+				int ServiceId = res.getInt("c") + 1;
+				
+				/*insert bTypeOrdered*/
+				sqls = "SELECT sType" + " FROM Service" + " WHERE HotelID = '" + hotelId + "' " + " ORDER BY sType ASC";
+				res = t.executeQuery(sqls);
+				int i = 0;
+				
+				while(res.next()){
+					String passString = "serPass" + i + "";
+					int numService = Integer.parseInt(session.getAttribute(passString).toString());
+					String serviceType = res.getString(1);
+	
+					int tmpNum = 0;
+					for(;tmpNum < numService; tmpNum ++){
+						
+						//insert into bTypeOrdered table
+						//ServiceId, hotelId, roomNo, invoiceNo,serviceType
+						String insert = "INSERT INTO sTypeOrdered(ServiceId, HotelID, RoomNo, InvoiceNo, sType) "
+										+ " VALUES(?, ?, ?, ?, ?)";
+						
+						PreparedStatement ps = con.prepareStatement(insert);
+						ps.setInt(1, ServiceId);
+						ps.setInt(2, hotelId);
+						ps.setInt(3, roomNo);
+						ps.setInt(4, invoiceNo);
+						//test purpose
+						ps.setString(5, serviceType);
+						//ps.executeUpdate();
+						ServiceId++;
+					}
+					i++;
 				}
-				i++;
+				
+				if(makeAnotherOrder != null){
+					%>
+					<script>
+						alert("You are going to make another order with the same invoice number. Current order has been already submitted.");
+						window.location.href = "mainOrderPage.jsp";
+					</script>
+					<%
+				}
+				
+				else if(ssfOrder != null){
+					%>
+					<script>
+						alert("Congratulations! You place the order successfully!");
+						window.location.href = "Userpage.jsp";
+					</script>
+					<%
+				}
 			}
 			
 			
