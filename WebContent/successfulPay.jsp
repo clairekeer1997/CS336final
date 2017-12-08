@@ -10,20 +10,37 @@
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://jtsr336db.c8venqrmdpbq.us-east-2.rds.amazonaws.com:3306/hoteldb", "JTSR","336HotelJTSR");
 			boolean isBad = false;
-			
+			boolean isSame = false;
+			String sqls = "";
+			Statement  t = con.createStatement();
+			ResultSet res;
 			/*get submit status*/
 			String makeAnotherOrder = request.getParameter("makeAnotherOrder");
 			String ssfOrder = request.getParameter("successOrder");
 			out.print(makeAnotherOrder);
 			
 			/* automatic generate invoiceNo for each reservation*/
-			Statement t = con.createStatement();	
-			String sqls = "SELECT MAX(r.InvoiceNo) as cnt FROM Reservation r";
-			ResultSet res = t.executeQuery(sqls);
-			res.next();
-			int invoiceNo = res.getInt("cnt") + 1;
-			out.println("invoiceNo: " + invoiceNo);
-			
+			int invoiceNo = 0;
+
+			if(session.getAttribute("invoiceNo") == null){
+			    sqls = "SELECT MAX(r.InvoiceNo) as cnt FROM Reservation r";
+				res = t.executeQuery(sqls);
+				if(!res.next()){
+					invoiceNo = 0;
+				}else{
+					invoiceNo = res.getInt("cnt") + 1;	
+				}
+				
+				session.setAttribute("invoiceNo", String.valueOf(invoiceNo));
+				out.println("invoiceNo: " + invoiceNo);
+			}else{
+		
+				String invoiceStr = session.getAttribute("invoiceNo").toString();
+				invoiceNo = Integer.parseInt(invoiceStr);
+				isSame = true;
+				out.println("invoiceNo: " + invoiceNo);
+
+			}
 			/*temple dynamic username*/
 			//String userName = session.getAttribute("user_name").toString();
 			//out.println("userName: " + userName);
@@ -265,27 +282,30 @@
 			float totalAmt = bre_cost + ser_cost + stayPrice;
 			
 			if(!isBad){
+				String ins = "";
+				PreparedStatement pst;
 				/*insert reservation table*/
-				String ins = "INSERT INTO Reservation(InvoiceNo , Username , Cnumber , ResDate , TotalAmt, ExpMonth , ExpYear , Type ,SecCode ,FirstName ,LastName ,BillingAddrStreet ,BillingAddrState ,BillingAddrZip ) "
-								+ " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-				PreparedStatement pst = con.prepareStatement(ins);
-				pst.setInt(1, invoiceNo);
-				pst.setString(2,"teacher1");
-				//test.purpose
-				pst.setString(3, cardNum);
-				pst.setString(4, date);
-				pst.setFloat(5, totalAmt);
-				pst.setString(6, expMon);
-				pst.setString(7, expYear);
-		    	pst.setString(8, cardType);
-				pst.setString(9, cvv);
-				pst.setString(10, firstName);
-				pst.setString(11, lastName);
-				pst.setString(12, billStr);
-				pst.setString(13, billSta);
-				pst.setString(14, billZip);
-				//pst.executeUpdate();
-			
+				if(!isSame){
+					ins = "INSERT INTO Reservation(InvoiceNo , Username , Cnumber , ResDate , TotalAmt, ExpMonth , ExpYear , Type ,SecCode ,FirstName ,LastName ,BillingAddrStreet ,BillingAddrState ,BillingAddrZip ) "
+									+ " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					pst = con.prepareStatement(ins);
+					pst.setInt(1, invoiceNo);
+					pst.setString(2,"teacher1");
+					//test.purpose
+					pst.setString(3, cardNum);
+					pst.setString(4, date);
+					pst.setFloat(5, totalAmt);
+					pst.setString(6, expMon);
+					pst.setString(7, expYear);
+			    	pst.setString(8, cardType);
+					pst.setString(9, cvv);
+					pst.setString(10, firstName);
+					pst.setString(11, lastName);
+					pst.setString(12, billStr);
+					pst.setString(13, billSta);
+					pst.setString(14, billZip);
+					pst.executeUpdate();
+				}
 				/*insert Reserves table*/
 				ins = "INSERT INTO Reserves(HotelId, RoomNo, InvoiceNo , inDate, outDate , NoOfDays) "
 								+ " VALUES(?, ?, ?, ?, ?, ?)";
@@ -296,7 +316,7 @@
 				pst.setString(4, inDate);
 				pst.setString(5, outDate);
 				pst.setInt(6, days);
-				//pst.executeUpdate();
+				pst.executeUpdate();
 			
 				/*get the number of BreakfastID*/
 				sqls = "SELECT MAX(BreakfastID) as cnt FROM bTypeOrdered";
@@ -329,7 +349,7 @@
 						ps.setInt(4, invoiceNo);
 						//test purpose
 						ps.setString(5, breakfastType);
-						//ps.executeUpdate();
+						ps.executeUpdate();
 						breakfastId++;
 					}
 					j++;
@@ -366,7 +386,7 @@
 						ps.setInt(4, invoiceNo);
 						//test purpose
 						ps.setString(5, serviceType);
-						//ps.executeUpdate();
+						ps.executeUpdate();
 						ServiceId++;
 					}
 					i++;
