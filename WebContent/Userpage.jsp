@@ -22,6 +22,7 @@
 			String username = session.getAttribute("user_name").toString();
 			//String username = "teacher1";
 			Statement t = con.createStatement();
+			//System.out.println(username);
 			String sqls = "SELECT r.InvoiceNo\n" + "FROM Reservation r\n" + "WHERE r.Username = \"" + username + "\"";
 			ResultSet res = t.executeQuery(sqls);
 	%>
@@ -31,7 +32,7 @@
 			</form>
 			<br>
 			<br>
-		    <h1> Your Reservations</h1>
+		    <h1> My Reservations</h1>
 		        <form action="Reviewpage.jsp">
 		        	<select name="invoiceNum" size=1>
 		        	<%  while(res.next()){ %>

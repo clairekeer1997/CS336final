@@ -15,9 +15,7 @@
 	try{
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection con = DriverManager.getConnection("jdbc:mysql://jtsr336db.c8venqrmdpbq.us-east-2.rds.amazonaws.com:3306/hoteldb", "JTSR","336HotelJTSR");
-		String entity = request.getParameter("CommentType");
-		System.out.println("entity" + entity);
-		
+		String entity = request.getParameter("CommentType");		
 		if(entity.equals("room")){
 			String hotelid1 = request.getParameter("hotelID1");
 			String roomid1 = request.getParameter("roomID1");
@@ -25,14 +23,6 @@
 			String checkout = request.getParameter("outDate");
 			String rating = request.getParameter("rating");
 			String comment = request.getParameter("paragraph_text");
-			if(rating.matches("[a-zA-Z]*")){ //|| Integer.parseInt(rating) > 10 || Integer.parseInt(rating) < 0){
-				%>
-				<script>
-					alert("Invaild Rating Input.");
-					window.location.href = "Reviewpage.jsp"
-				</script>
-				<%
-			}
 			String update = "UPDATE Reserves SET Rating= " + rating +
 					", TextComment= "+"'"+  comment + "'"+
 					" WHERE HotelID=" +hotelid1 + " AND RoomNo=" + roomid1+ " AND inDate=" + "'" + checkin+ "'"+";"; 
@@ -43,14 +33,6 @@
 			String bfid = request.getParameter("bfID");
 			String rating = request.getParameter("rating");
 			String comment = request.getParameter("paragraph_text");
-			if(Integer.parseInt(rating) > 10 || Integer.parseInt(rating) < 0){
-				%>
-				<script>
-					alert("Invaild Rating Input.");
-					window.location.href = "Reviewpage.jsp"
-				</script>
-				<%
-			}
 			String update = "UPDATE bTypeOrdered SET Rating = " + rating +
 					", TextComment= "+"'"+  comment + "'"+
 					" WHERE BreakfastID =" + bfid + ";"; 
@@ -61,14 +43,6 @@
 			String sevid = request.getParameter("sevID");
 			String rating = request.getParameter("rating");
 			String comment = request.getParameter("paragraph_text");
-			if(Integer.parseInt(rating) > 10 || Integer.parseInt(rating) < 0){
-				%>
-				<script>
-					alert("Invaild Rating Input.");
-					window.location.href = "Reviewpage.jsp"
-				</script>
-				<%
-			}
 			String update = "UPDATE sTypeOrdered SET Rating= " + rating +
 					", TextComment= "+"'"+  comment + "'"+
 					" WHERE ServiceID=" +sevid + ";"; 
@@ -82,4 +56,5 @@
 
 %>
 </body>
+<a href="Userpage.jsp">Back To My Account</a>
 </html>

@@ -41,7 +41,7 @@
 			
 			
 			 %>
-			 <h1>Room Reservations</h1>
+			 <h1>History of Room Reservation</h1>
 			 	<%while(roomres.next()){	
 			 	%>
 				<form action = Commentpage.jsp >
@@ -63,8 +63,10 @@
 				</form>
 				<% } %>
 				
-		     <h1>Breakfast Ordered</h1> 
-		     <%while(bfres.next()){ %>
+		     <h1>History of Breakfasts Ordered</h1> 
+		     <% int j = 0;
+		     while(bfres.next()){ 
+		     	%>
 		     	<form action = Commentpage.jsp>
 					Hotel: <input type = "text" name = hotelID2 value = <%= bfres.getString(1) %>>
 					Room: <input type = "text" name = roomID2 value = <%= bfres.getString(2) %>>
@@ -82,10 +84,14 @@
 					<br>
 					<br>
 				</form>	
-			 <% } %>
+			 <% j++; } 
+			 if(j == 0){%>
+			 	No Breakfast history.
+			 <%} %>
 
-		     <h1>Service Ordered</h1>  	
-		     	 <%while(sevres.next()){ %>
+		     <h1>History of Services Ordered</h1>  	
+		     	 <%	int k = 0;
+		     	 while(sevres.next()){ %>
 				<form action = Commentpage.jsp>
 					Hotel: <input type = "text" name = hotelID3 value = <%= sevres.getString(1) %>>
 					Room: <input type = "text" name = roomID3 value = <%= sevres.getString(2) %>>
@@ -103,7 +109,11 @@
 					<br>
 					<br>
 				</form>	
-				<% } %>	
+				<% k++;
+				} 
+				if(k == 0){%>	
+				No Service History.
+				<%} %>
 		<%}
 		catch(Exception e){
 			e.printStackTrace();
