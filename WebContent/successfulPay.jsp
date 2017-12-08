@@ -182,7 +182,7 @@
 				%>
 				<script>
 					alert("No such room avaliable during this time period. Please change your roomType selections or change your hotel selection.");
-					window.location.href = "mainOrderPage.jsp"
+					window.location.href = "mainOrderPage.jsp";
 				</script>
 				<%
 			}
