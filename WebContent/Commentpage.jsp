@@ -55,6 +55,6 @@
 	}
 
 %>
-</body>
 <a href="Userpage.jsp">Back To My Account</a>
+</body>
 </html>

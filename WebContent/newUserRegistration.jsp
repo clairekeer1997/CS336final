@@ -211,4 +211,10 @@
 	<br>
 	<a href="LoginRegistration.jsp">Back to Login/Registration Page</a>
 </body>
+<style>
+body {
+    background-image: url("file:///Users/claireyou/git/CS336final/WebContent/WEB-INF/pic.jpg");
+    background-size:100% 100%;
+}
+</style>
 </html>

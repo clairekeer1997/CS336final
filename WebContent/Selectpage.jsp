@@ -92,6 +92,12 @@
 		border: none;
     	font-size:24px;
  }
+
+body {
+    background-image: url("file:///Users/claireyou/git/CS336final/WebContent/WEB-INF/pic3.png");
+    background-size:100% 100%;
+}
+
  </style>
  <a href="LoginRegistration.jsp">Logout</a>
  </html>

@@ -55,4 +55,10 @@ For Returning Users, Please Login Here:
 </center>
 <br>
 </body>
+<style>
+body {
+    background-image: url("file:///Users/claireyou/git/CS336final/WebContent/WEB-INF/pic.jpg");
+    background-size:100% 100%;
+}
+</style>
 </html>

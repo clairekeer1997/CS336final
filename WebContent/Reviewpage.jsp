@@ -123,7 +123,8 @@
 </body>
 <style>
 body {
-    background-image: url("file:///Users/claireyou/Desktop/hotel.jpg");
+    background-image: url("file:///Users/claireyou/git/CS336final/WebContent/WEB-INF/pic3.png");
+    background-size:100% 100%;
 }
 </style>
 </html>
