@@ -27,7 +27,7 @@
 			ResultSet res = t.executeQuery(sqls);
 	%>
 		<center>
-			<form action = "mainOrderPage.jsp">
+			<form action = "selectCountry.jsp">
 				<input type = "Submit" value = "Make a Reservation" name = "reservation">
 			</form>
 			<br>
