@@ -50,7 +50,7 @@
 </head>
 
 <body>
-<font size = 6>Welcome to JTSR Hotels </font>
+<font size = 6>Welcome to Hulton Hotels </font>
 <br>
 	<form method = "post" action = "Selectpage.jsp">
 	<center>
