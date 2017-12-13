@@ -30,7 +30,6 @@
 	while(resBreakfast.next()){
 		String textName = "num" + j + "";
 		String brePass = "brePass" + j + "";
-		out.print(brePass);
 		int numBreakfast = 0;
 		if(request.getParameter(textName) != ""){
 			numBreakfast = Integer.parseInt (request.getParameter(textName));
@@ -65,7 +64,6 @@
 		session.setAttribute( serPass , numReserve);
 		i++;
 	}
-	out.print(ser_cost);
 	
 	session.setAttribute("bre_cost", bre_cost);
 	session.setAttribute("ser_cost", ser_cost);
@@ -117,7 +115,7 @@
 <style>
 body {
     background-image: url("file:///Users/claireyou/git/CS336final/WebContent/WEB-INF/pic3.png");
-    background-size:100% 100%;
+    background-size:100% 190%;
 }
 </style>
 

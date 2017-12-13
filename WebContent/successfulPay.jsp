@@ -17,7 +17,7 @@
 			/*get submit status*/
 			String makeAnotherOrder = request.getParameter("makeAnotherOrder");
 			String ssfOrder = request.getParameter("successOrder");
-			out.print(makeAnotherOrder);
+			//out.print(makeAnotherOrder);
 			
 			/* automatic generate invoiceNo for each reservation*/
 			int invoiceNo = 0;
@@ -32,57 +32,57 @@
 				}
 				
 				session.setAttribute("invoiceNo", String.valueOf(invoiceNo));
-				out.println("invoiceNo: " + invoiceNo);
+				//out.println("invoiceNo: " + invoiceNo);
 			}else{
 		
 				String invoiceStr = session.getAttribute("invoiceNo").toString();
 				invoiceNo = Integer.parseInt(invoiceStr);
 				isSame = true;
-				out.println("invoiceNo: " + invoiceNo);
+				//out.println("invoiceNo: " + invoiceNo);
 
 			}
 			/*temple dynamic username*/
-			//String userName = session.getAttribute("user_name").toString();
+			String userName = session.getAttribute("user_name").toString();
 			//out.println("userName: " + userName);
 			
 			/*get Card Number*/
 			String cardNum = request.getParameter("cardNum");
-			out.println("cardNum: " + cardNum);
+			//out.println("cardNum: " + cardNum);
 			
 			/*generate reservation date*/
 			Calendar calendar = Calendar.getInstance();
 			SimpleDateFormat today = new SimpleDateFormat("yyyy-MM-dd");
 			String date = today.format(calendar.getTime());
-			out.println("date: " + date);
+			//out.println("date: " + date);
 			
 			/*get expect expMon and expYear*/
 			String expMon  = request.getParameter("expMon");
 			String expYear = request.getParameter("expYear");
-			out.println("expMon: " + expMon + "expYear: " + expYear);
+			//out.println("expMon: " + expMon + "expYear: " + expYear);
 			
 			/*get card type*/
 			String cardType = request.getParameter("cardType");
-			out.println(cardType);
+			//out.println(cardType);
 			
 			/*get security code(cvv)*/
 			String cvv = request.getParameter("cvv");
-			out.println("cvv: " + cvv);
+			//out.println("cvv: " + cvv);
 			
 			/*get first name and Last name*/
 			String firstName = request.getParameter("firstName");
 			String lastName = request.getParameter("lastName");
-			out.println("First Name: " + firstName + "Last Name: " + lastName);
+			//out.println("First Name: " + firstName + "Last Name: " + lastName);
 			
 			/*get billing address street, state, zip*/
 			String billStr = request.getParameter("billStr");
 			String billSta = request.getParameter("billSta");
 			String billZip = request.getParameter("billZip");
-			out.println("billStr: " + billStr + "billSta: " + billSta + "billZip" + billZip);
+			//out.println("billStr: " + billStr + "billSta: " + billSta + "billZip" + billZip);
 			
 			/*get check in date and check out date*/
 			String inDate = session.getAttribute("startDate").toString();
 			String outDate = session.getAttribute("e").toString();
-			out.print("startDate: " + inDate + "endDate: " + outDate);
+			//out.print("startDate: " + inDate + "endDate: " + outDate);
 			
 			/*convert string to date and calculate the number of day that customer will stay*/
 			DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -90,15 +90,15 @@
 			Date endDate = format.parse(outDate);
 			long diff = endDate.getTime() - startDate.getTime();
 		    int days = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-		    out.println("days: " + days);
+		   // out.println("days: " + days);
 		    
 			/*query hotelId*/
 			String hotelID = session.getAttribute("h").toString();
 			String roomType  = session.getAttribute("r").toString();
 
 			int hotelId = Integer.parseInt(hotelID);
-			out.print("HOTELID: " + hotelId);
-			out.print("roomType: " + roomType);
+			//out.print("HOTELID: " + hotelId);
+			//out.print("roomType: " + roomType);
 			
 			/*Using hotelId and roomType to query room price per day*/
 			sqls = "SELECT Price FROM Room Where HotelID = '" + hotelId + "'" + " AND Type = " + "'" + roomType + "'";
@@ -128,7 +128,7 @@
 			boolean isAva = true;
 			boolean isEmpty = false;
 			sqls = "SELECT RoomNo, inDate, outDate FROM Reserves Where RoomNo IN ( SELECT DISTINCT RoomNo FROM Room WHERE HotelID ='" + hotelId + "'" + " AND Type = " + "'" + roomType + "' )";
-			out.println(sqls);
+			//out.println(sqls);
 			res = t.executeQuery(sqls);
 			
 			if(!res.next()){
@@ -272,7 +272,7 @@
 			}
 			
 			stayPrice = (float)Math.round(stayPrice * 100f) / 100f;
-			out.print(stayPrice);
+			//out.print(stayPrice);
 
 			/*get breakfast price and service price*/
 			float bre_cost = (Float) session.getAttribute("bre_cost");
@@ -290,7 +290,7 @@
 									+ " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 					pst = con.prepareStatement(ins);
 					pst.setInt(1, invoiceNo);
-					pst.setString(2,"teacher1");
+					pst.setString(2,userName);
 					//test.purpose
 					pst.setString(3, cardNum);
 					pst.setString(4, date);

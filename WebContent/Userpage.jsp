@@ -62,7 +62,7 @@ input[name = reservation]{
 
 body {
     background-image: url("file:///Users/claireyou/git/CS336final/WebContent/WEB-INF/pic3.png");
-    background-size:100% 100%;
+    background-size:100% 150%;
 }
 
 </style>
