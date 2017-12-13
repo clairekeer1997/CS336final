@@ -13,7 +13,6 @@
 
 <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>jQuery UI Datepicker - Default functionality</title>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -62,7 +61,11 @@
 			Connection con = DriverManager.getConnection("jdbc:mysql://jtsr336db.c8venqrmdpbq.us-east-2.rds.amazonaws.com:3306/hoteldb", "JTSR","336HotelJTSR");
 			
 			Statement t = con.createStatement();
-			String sqls = "SELECT h.Name, h.HotelID\n" + "FROM Hotel h";
+			String country = session.getAttribute("countrySelection").toString();
+			String state = request.getParameter("stateSelection");
+			System.out.println(state);
+			String sqls = "SELECT Name, HotelID FROM Hotel WHERE Country = '" + country + "'" + " AND State = " + "'" + state + "'";
+			System.out.print(sqls);
 			ResultSet res = t.executeQuery(sqls);
 	%>
 	<tr><td>Select a Hotel: </td><td>
