@@ -400,6 +400,7 @@
 				
 				if(makeAnotherOrder != null){
 					%>
+					Oh guess what, you have paid: <%= totalAmt%> for this order!!!! 
 					<script>
 						alert("You are going to make another order with the same invoice number. Current order has been already submitted.");
 						window.location.href = "selectCountry.jsp";
@@ -409,6 +410,7 @@
 				
 				else if(ssfOrder != null){
 					%>
+					Oh guess what, you have paid: <%= totalAmt%> for this order!!!! 
 					<script>
 						alert("Congratulations! You place the order successfully!");
 						window.location.href = "Userpage.jsp";
