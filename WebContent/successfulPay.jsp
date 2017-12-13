@@ -107,7 +107,7 @@
 				%>
 				<script>
 					alert("No such type of room in this Hotel. Please change your roomType selections or change your hotel selection.");
-					window.location.href = "mainOrderPage.jsp";
+					window.location.href = "selectCountry.jsp";
 				</script>
 				<%
 				isBad = true;
@@ -194,7 +194,6 @@
 
 				if(isAva == true){
 					roomNo = tmpRoomNo;
-					out.println("successful order!");
 					break;
 				}
 
@@ -206,7 +205,7 @@
 				%>
 				<script>
 					alert("No such room avaliable during this time period. Please change your roomType selections or change your hotel selection.");
-					window.location.href = "mainOrderPage.jsp";
+					window.location.href = "selectCountry.jsp";
 				</script>
 				<%
 				isBad = true;
@@ -319,11 +318,14 @@
 				pst.executeUpdate();
 			
 				/*get the number of BreakfastID*/
+				int breakfastId = -1;
 				sqls = "SELECT MAX(BreakfastID) as cnt FROM bTypeOrdered";
 				res = t.executeQuery(sqls);
-				res.next();
-				int breakfastId = res.getInt("cnt") + 1;
-				
+				if(!res.next()){
+					breakfastId = 1;
+				}else{
+					breakfastId = res.getInt("cnt") + 1;
+				}
 				/*insert bTypeOrdered*/
 				sqls = "SELECT bType" + " FROM Breakfast" + " WHERE HotelID = '" + hotelId + "' " + " ORDER BY bType ASC";
 				res = t.executeQuery(sqls);
@@ -356,10 +358,14 @@
 				}
 				
 				/*get the number of ServiceID*/
+				int ServiceId = -1;
 				sqls = "SELECT MAX(ServiceID) as c FROM sTypeOrdered";
 				res = t.executeQuery(sqls);
-				res.next();
-				int ServiceId = res.getInt("c") + 1;
+				if(!res.next()){
+					ServiceId = 1;
+				}else{
+					ServiceId = res.getInt("c") + 1;
+				}
 				
 				/*insert bTypeOrdered*/
 				sqls = "SELECT sType" + " FROM Service" + " WHERE HotelID = '" + hotelId + "' " + " ORDER BY sType ASC";
@@ -396,7 +402,7 @@
 					%>
 					<script>
 						alert("You are going to make another order with the same invoice number. Current order has been already submitted.");
-						window.location.href = "mainOrderPage.jsp";
+						window.location.href = "selectCountry.jsp";
 					</script>
 					<%
 				}
