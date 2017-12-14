@@ -41,6 +41,7 @@
 				//out.println("invoiceNo: " + invoiceNo);
 
 			}
+			
 			/*dynamic username*/
 			String userName = session.getAttribute("user_name").toString();
 			//out.println("userName: " + userName);
@@ -293,8 +294,10 @@
 				float totalAmt = bre_cost + ser_cost + stayPrice;
 				
 				if(!isBad){
+				
 					String ins = "";
 					PreparedStatement pst;
+					
 					/*insert reservation table*/
 					if(!isSame){
 						ins = "INSERT INTO Reservation(InvoiceNo , Username , Cnumber , ResDate , TotalAmt, ExpMonth , ExpYear , Type ,SecCode ,FirstName ,LastName ,BillingAddrStreet ,BillingAddrState ,BillingAddrZip ) "
