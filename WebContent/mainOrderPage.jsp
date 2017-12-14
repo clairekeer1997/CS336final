@@ -63,9 +63,9 @@
 			Statement t = con.createStatement();
 			String country = session.getAttribute("countrySelection").toString();
 			String state = request.getParameter("stateSelection");
-			System.out.println(state);
+			//System.out.println(state);
 			String sqls = "SELECT Name, HotelID FROM Hotel WHERE Country = '" + country + "'" + " AND State = " + "'" + state + "'";
-			System.out.print(sqls);
+			//System.out.print(sqls);
 			ResultSet res = t.executeQuery(sqls);
 	%>
 	<tr><td>Select a Hotel: </td><td>
