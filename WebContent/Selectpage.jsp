@@ -29,6 +29,16 @@
 		   Class.forName("com.mysql.jdbc.Driver");
 		   Connection con = DriverManager.getConnection("jdbc:mysql://jtsr336db.c8venqrmdpbq.us-east-2.rds.amazonaws.com:3306/hoteldb", "JTSR","336HotelJTSR");
 		   Statement t = con.createStatement();
+			if(request.getParameter("startDate").equals("") ||
+			   request.getParameter("endDate").equals("")){			
+				%>
+				<script>
+					alert("Please fill check in or check out date before select service.");
+					window.location.href = "mainOrderPage.jsp";
+				</script>
+				<%
+			}
+			
 		   String sqlbreakfast  = "SELECT Btype.bType\n" + "FROM Breakfast Btype\n" + "WHERE Btype.HotelID = '" + hotelId + "' " + " ORDER BY Btype.bType ASC";	
            ResultSet resBreakfast = t.executeQuery(sqlbreakfast);
  %>
@@ -45,7 +55,7 @@
             <br>
             <font size =5>Breakfast Type:<%=bre %></font>
               <input type="hidden"  name= <%= tempbreak %> value = <%=bre %>>
-              <pre>Quantity: <input type ="text" name= <%= num %>></pre>
+              <pre>Quantity: <input type ="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' name= <%= num %>></pre>
               <br><br>
             <% j++;
             }  %>
@@ -64,7 +74,7 @@
 		        	String sev = resservice.getString(1);%>
 		            <br> 
 		            <font size = 5> Service Type:  <%= sev %> </font>
-		            <input type = "hidden" name = <%= temp %> value = <%= sev%>>
+		            <input type = "hidden" onkeypress='return event.charCode >= 48 && event.charCode <= 57' name = <%= temp %> value = <%= sev%>>
 		            <pre>Quantity:<input type="text"  name= <%= num %>> </pre>
 		            <br><br>
 		          <% i++;
@@ -88,7 +98,7 @@
  <style>
  input[name = submit]{
  		height: 50px;
-		width: 100px;
+		wxidth: 100px;
 		border: none;
     	font-size:24px;
  }

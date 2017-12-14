@@ -112,7 +112,7 @@
 		}
 	%>
 	
-	<tr><td> <input type = "submit" id = "paymentPage" value = "Go payment Info"></td></tr>
+	<tr><td> <input type = "submit" id = "selectService" value = "Go select service"></td></tr>
 	</table>
 	</center>
 	</form>
