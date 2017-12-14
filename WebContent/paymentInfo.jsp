@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title> payment - JTSR Hotel Order System</title>
+<title> payment - Hulton Hotel Order System</title>
 </head>
 
 <body>
@@ -68,7 +68,7 @@
 	session.setAttribute("bre_cost", bre_cost);
 	session.setAttribute("ser_cost", ser_cost);
 %>
-<font size = 6>Welcome to JTSR Hotels </font>
+<font size = 6>Welcome to Hulton Hotels </font>
 <br>	
 	<form method = "post" action = "successfulPay.jsp">
 	<center>

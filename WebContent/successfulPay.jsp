@@ -122,7 +122,7 @@
 			while(res.next()){
 				roomList.add(res.getInt(1));	
 			}
-			
+
 			/*query avaliable room number*/
 			int roomNo = -1;
 			boolean isAva = true;
@@ -135,7 +135,7 @@
 				roomNo  = ((Integer) roomList.get(0)).intValue();
 				isEmpty = true;
 			}
-			
+
 			do{	
 					if(isEmpty){
 						break;
@@ -210,7 +210,6 @@
 				<%
 				isBad = true;
 			}
-
 			/*query discount information for that room and calculate total price for room*/
 			float discount;
 			boolean isDis = true;
