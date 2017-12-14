@@ -38,25 +38,62 @@
 			String sevsql = "SELECT so.HotelID, so.RoomNo, so.ServiceID, so.sType\n" + "FROM sTypeOrdered so\n" + "WHERE so.InvoiceNo = \"" + invoiceNum + "\"";
 			ResultSet sevres = sev.executeQuery(sevsql);
 			
+			String hotelid1 = "";
+			if(roomres.next()){
+				hotelid1 = roomres.getString(1);
+			}
+			Statement h1 = con.createStatement();
+			String sql1 = "SELECT Name FROM Hotel WHERE HotelID = '" + hotelid1 + "'";
+			ResultSet s1 = h1.executeQuery(sql1);
+			String hotelname1  = "";
+			if(s1.next()){
+				hotelname1 = s1.getString(1);
+			
+			}
+			
+			
+			String hotelid2 = "";
+			if(bfres.next()){
+				hotelid2 = bfres.getString(1);
+			}
+			Statement h2 = con.createStatement();
+			String sql2 = "SELECT Name FROM Hotel WHERE HotelID = '" + hotelid2 + "'";
+			ResultSet s2 = h2.executeQuery(sql2);
+			String hotelname2  = "";
+			if(s2.next()){
+				hotelname2 = s2.getString(1);
+			
+			}
+			
+			String hotelid3 = "";
+			if(sevres.next()){
+				hotelid3 = sevres.getString(1);
+			}
+			Statement h3 = con.createStatement();
+			String sql3 = "SELECT Name FROM Hotel WHERE HotelID = '" + hotelid3 + "'";
+			ResultSet s3 = h3.executeQuery(sql3);
+			String hotelname3  = "";
+			if(s3.next()){
+				hotelname3 = s3.getString(1);
+			
+			}
 			
 			
 			 %>
 			 <h1>History of Room Reservation</h1>
 			 	<%while(roomres.next()){	
-			 		String hotelid = roomres.getString(1);
 			 		String roomid = roomres.getString(2);
 			 		String indate = roomres.getString(3);
-			 		String outdate = roomres.getString(4);
-			 		
+			 		String outdate = roomres.getString(4);	
 			 	%>
 				<form action = Commentpage.jsp >
 					<font size = 5>
-					Hotel: <%=  hotelid %> ,
+					Hotel: <%=  hotelname1 %> ,
 					Room:  <%=  roomid %> ,
 					CheckIn Date:  <%= indate %> ,
 					CheckOut Date:  <%= outdate %> 
 					</font><br>
-					<input type = "hidden" name = hotelID1 value = <%=  hotelid %>>					
+					<input type = "hidden" name = hotelID1 value = <%=  hotelid1 %>>					
 					<input type = "hidden" name = roomID1 value = <%=  roomid %>>					
 					<input type = "hidden" name = inDate value = <%= indate %>>					 
 					<input type = "hidden" name = outDate value = <%= outdate %>>
@@ -77,14 +114,14 @@
 		     <h1>History of Breakfasts Ordered</h1> 
 		     <% int j = 0;
 		     while(bfres.next()){ 
-		    	 String hotelid2 = bfres.getString(1);
+		
 		    	 String roomid2 = bfres.getString(2);
 		    	 String bfid = bfres.getString(3);
 		    	 String bftype = bfres.getString(4);
 		     	%>
 		     	<form action = Commentpage.jsp>
 		     		<font size = 5>
-					Hotel:  <%= hotelid2 %>  ,
+					Hotel:  <%= hotelname2 %>  ,
 					Room:   <%= roomid2 %>  ,
 					Breakfast Type:  <%= bftype %>
 					</font><br>
@@ -112,14 +149,13 @@
 		     <h1>History of Services Ordered</h1>  	
 		     	 <%	int k = 0;
 		     	 while(sevres.next()){ 
-		     	 String hotelid3 = sevres.getString(1);
 		    	 String roomid3 = sevres.getString(2);
 		    	 String sevid = sevres.getString(3);
 		    	 String sevtype = sevres.getString(4);
 		    	 %>
 				<form action = Commentpage.jsp>
 					<font size = 5>
-					Hotel:  <%= hotelid3 %>  ,
+					Hotel:  <%= hotelname3 %>  ,
 					Room:   <%= roomid3 %>  ,
 					Breakfast Type:  <%= sevtype %>
 					</font><br>
